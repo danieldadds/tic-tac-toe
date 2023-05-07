@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.title {
+  text-align: center;
+  padding: 1rem 0 1rem 0;
+}
+
+.container {
+  width: 302px;
+  height: 300px;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.container > div {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}

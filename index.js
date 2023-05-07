@@ -22,6 +22,7 @@ const gameBoard = {
   players: [],
   spaces: ["F", "F", "F", "F", "F", "F", "F", "F", "F"],
   playerTurn: true,
+  isWin: false,
 };
 
 /// assign player name, marker and color
@@ -49,6 +50,17 @@ const gameControls = (() => {
     boxSeven.style.backgroundColor = "";
     boxEight.style.backgroundColor = "";
     boxNine.style.backgroundColor = "";
+
+    gameBoard.spaces = ["F", "F", "F", "F", "F", "F", "F", "F", "F"];
+    // gameControls.clearBoard();
+    gameBoard.playerTurn = true;
+    gameBoard.isWin = false;
+    gameText.textContent = "Player One go first";
+    gameControls.playerSelection(playerOne);
+
+    //// BUG WITH THE EVENT LISTENER --- NEED TO REWRITE AS CAUSING TO CRASH
+
+    console.log(gameBoard.spaces);
   };
   const playerSelection = (player) => {
     let marker = player.getMarker();
@@ -110,13 +122,18 @@ const gameControls = (() => {
     });
   };
   const addMove = (space, marker) => {
-    if (gameBoard.playerTurn === true && marker === "X") {
+    checkWin(playerOne.getName(), playerOne.getMarker());
+    checkWin(playerTwo.getName(), playerTwo.getMarker());
+    if (
+      gameBoard.playerTurn === true &&
+      marker === "X" &&
+      gameBoard.isWin === false
+    ) {
       if (gameBoard.spaces[space] === "F") {
         gameBoard.spaces[space] = marker;
         console.log(gameBoard.spaces);
         console.log("box " + space + " selected" + " by " + marker);
         gameBoard.playerTurn = false;
-
         gameText.textContent = "Player two's turn";
         gameControls.playerSelection(playerTwo);
       } else {
@@ -127,13 +144,11 @@ const gameControls = (() => {
       if (gameBoard.spaces[space] === "F") {
         gameBoard.spaces[space] = marker;
         console.log(gameBoard.spaces);
+
         gameBoard.playerTurn = true;
         gameText.textContent = "Player One's turn";
         gameControls.playerSelection(playerOne);
       } else {
-        console.log(gameBoard.spaces + " please go again");
-        gameText.textContent = "Player two go again";
-
         gameControls.playerSelection(playerTwo);
       }
     } else if (gameBoard.spaces === "X" || gameBoard.spaces === "O") {
@@ -142,16 +157,88 @@ const gameControls = (() => {
     }
   };
 
-  const addColor = (index, color) => {
-    switch (index) {
-      case 0:
-        boxOne.style.backgroundColor = color;
+  const checkWin = (player, marker) => {
+    if (
+      gameBoard.spaces[0] === marker &&
+      gameBoard.spaces[1] === marker &&
+      gameBoard.spaces[2] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+    } else if (
+      gameBoard.spaces[3] === marker &&
+      gameBoard.spaces[4] === marker &&
+      gameBoard.spaces[5] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+      gameControls.clearBoard();
+    } else if (
+      gameBoard.spaces[6] === marker &&
+      gameBoard.spaces[7] === marker &&
+      gameBoard.spaces[8] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+      gameControls.clearBoard();
+    } else if (
+      gameBoard.spaces[0] === marker &&
+      gameBoard.spaces[4] === marker &&
+      gameBoard.spaces[8] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+      gameControls.clearBoard();
+    } else if (
+      gameBoard.spaces[6] === marker &&
+      gameBoard.spaces[4] === marker &&
+      gameBoard.spaces[2] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+      gameControls.clearBoard();
+    } else if (
+      gameBoard.spaces[0] === marker &&
+      gameBoard.spaces[3] === marker &&
+      gameBoard.spaces[6] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+      gameControls.clearBoard();
+    } else if (
+      gameBoard.spaces[1] === marker &&
+      gameBoard.spaces[4] === marker &&
+      gameBoard.spaces[7] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+      gameControls.clearBoard();
+    } else if (
+      gameBoard.spaces[2] === marker &&
+      gameBoard.spaces[5] === marker &&
+      gameBoard.spaces[8] === marker
+    ) {
+      gameBoard.isWin = true;
+      gameText.innerText = player + " wins!";
+      console.log(player + "player one wins");
+      gameControls.clearBoard();
     }
+    // else {
+    //   gameText.innerText = "its a draw";
+    //   console.log("its a draw");
+    // }
   };
   return {
     clearBoard,
     addMove,
-    addColor,
+    checkWin,
     playerSelection,
   };
 })();
@@ -162,14 +249,5 @@ const playerTwo = Player("Jordan", "O", "Red");
 // start game \
 
 startButton.addEventListener("click", function () {
-  gameBoard.spaces = ["F", "F", "F", "F", "F", "F", "F", "F", "F"];
   gameControls.clearBoard();
-  gameBoard.playerTurn = true;
-  gameText.textContent = "Player One go first";
-  gameControls.playerSelection(playerOne);
 });
-
-// gameControls.addMove(0, playerOne.getMarker(), playerOne);
-// gameControls.addMove(5, playerTwo.getMarker(), playerTwo);
-
-// gameControls.playerSelection(playerOne);
